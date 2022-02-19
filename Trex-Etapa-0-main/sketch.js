@@ -37,8 +37,9 @@ function setup(){
   ground = createSprite(width, height-160, 1600, 10);
   ground.addImage(groundmg);
   ground.x=ground.width/2;
+
   // visibilidade do chão (ground)
-  groundinv = createSprite(width/4, height-140, 1600, 10);
+  groundinv = createSprite(width/5, height-140, width, 10);
   groundinv.visible=false;
 
   gruponuvens=new Group();
@@ -66,13 +67,18 @@ function draw(){
     
       trex.velocityY=trex.velocityY+0.9;
 
+      criar_obstaculos();                                       
+      criar_nuvens();
+     
       ground.velocityX=-9;
+      
       if (ground.x<1000){
       ground.x=ground.width/2;
 
-      criar_obstaculos();                                       
+    if (grupoobstaculos.isTouching (trex)){
+      estadodojogo = GAMEOVER;
+    }
 
-      criar_nuvens();
      
   }
 // else if = se não 
@@ -97,12 +103,10 @@ function draw(){
 
 function criar_obstaculos(){
   if (frameCount%60===0){
-    var obstaculos = createSprite (width, height*0.5, 50, 50);
+    var obstaculos = createSprite (width, height*0.795, 50, 50);
     obstaculos.velocityX=-9;
-    obstaculos.lifetime=300;
-    obstaculos.scale=0.7;
-    grupoobstaculos.add(obstaculos);
 
+   
 
 
     // programação para adicionar as imagens aleatoriamente
@@ -123,16 +127,20 @@ function criar_obstaculos(){
       default:break;
     
     }
+    obstaculos.lifetime=300;
+    obstaculos.scale=0.7;
+    grupoobstaculos.add(obstaculos);
+
   }
 }
 
 function criar_nuvens(){
   if (frameCount%60===0){
-    var nuvens=createSprite(width/2, height-20, 50, 50);
+    var nuvens=createSprite(width/2, height-80, 50, 50);
     nuvens.velocityX=-5;
     nuvens.lifetime=300; 
     nuvens.addImage(nuvensmg);
-    nuvens.y=Math.round(random(140,1200));
+    nuvens.y=Math.round(random(50,1000));
     nuvens.depth=trex.depth; 
     //console.log(trex.depth);
     trex.depth=trex.depth+1;
@@ -140,12 +148,12 @@ function criar_nuvens(){
   }
 
   if (frameCount%60===0){
-    var nuvens2=createSprite(width/2, height-20, 50, 50);
+    var nuvens2=createSprite(width/2, height*0.3, 50, 50);
     nuvens2.velocityX=-5;
     nuvens2.lifetime=300;
     nuvens2.addImage(nuvensmg2);
     nuvens2.scale=0.5;
-    nuvens2.y=Math.round(random(150,1200));
+    nuvens2.y=Math.round(random(40,800));
     nuvens2.depth=trex.depth;
     //console.log(nuvens2.depth);
     trex.depth=trex.depth+1;
